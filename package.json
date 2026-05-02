@@ -16,7 +16,9 @@
   "description": "",
   "dependencies": {
     "express": "^5.2.1",
-    "pg": "^8.20.0"
+    "pg": "^8.20.0",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.28"
   },
   "devDependencies": {
     "node-pg-migrate": "^8.0.4",
