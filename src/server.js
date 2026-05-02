@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import "./db/db.js";
+import { AppDataSource } from "./db/db.js";
 import {
   uploadFiles,
   processUpload,
@@ -27,6 +27,22 @@ app.get("/", (req, res) => {
 app.post("/api/opencall/upload", uploadFiles, processUpload);
 app.get("/api/opencall/data", getCallPlanData);
 
-app.listen(port, () => {
-  console.log(`http://localhost:${port}`);
-});
+// Start server when database is ready
+if (AppDataSource.isInitialized) {
+  app.listen(port, () => {
+    console.log(`✓ Database connected successfully`);
+    console.log(`Server running at http://localhost:${port}`);
+  });
+} else {
+  AppDataSource.initialize()
+    .then(() => {
+      app.listen(port, () => {
+        console.log(`✓ Database connected successfully`);
+        console.log(`Server running at http://localhost:${port}`);
+      });
+    })
+    .catch((error) => {
+      console.error("Database connection failed:", error);
+      process.exit(1);
+    });
+}

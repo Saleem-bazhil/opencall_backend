@@ -1,5 +1,6 @@
 // src/entity/DailyCallPlan.js
 import { EntitySchema } from "typeorm";
+import { AppDataSource } from "../db/db.js";
 
 export const DailyCallPlan = new EntitySchema({
   name: "DailyCallPlan",
@@ -123,3 +124,24 @@ export const DailyCallPlan = new EntitySchema({
     },
   },
 });
+
+// ────────────────────────────────────────────────────────────────
+// Helper Functions for Database Operations
+// ────────────────────────────────────────────────────────────────
+
+export const createDailyCallPlanTable = async () => {
+  // Table is created automatically by TypeORM with synchronize: true
+  // This function exists for compatibility
+  return Promise.resolve();
+};
+
+export const insertCallPlanRow = async (rowData) => {
+  const repo = AppDataSource.getRepository("DailyCallPlan");
+  const newRow = repo.create(rowData);
+  return await repo.save(newRow);
+};
+
+export const getAllCallPlanRows = async () => {
+  const repo = AppDataSource.getRepository("DailyCallPlan");
+  return await repo.find();
+};
