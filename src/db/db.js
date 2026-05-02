@@ -1,6 +1,6 @@
-// src/config/data-source.js
 import "reflect-metadata";
 import { DataSource } from "typeorm";
+import { DailyCallPlan } from "../models/opencall.models.js";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -11,14 +11,5 @@ export const AppDataSource = new DataSource({
   database: "open",
   synchronize: true,
   logging: false,
-  entities: ["src/models/*.js"],
+  entities: [DailyCallPlan],
 });
-
-// Initialize the database connection
-AppDataSource.initialize()
-  .then(() => {
-    console.log("✓ Database connected successfully");
-  })
-  .catch((error) => {
-    console.error("✗ Database connection failed:", error);
-  });

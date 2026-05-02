@@ -8,7 +8,7 @@ import {
 } from "./controller/opencall.controller.js";
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
 // Explicit CORS — allow all origins
 app.use(cors({
@@ -29,10 +29,15 @@ app.get("/api/opencall/data", getCallPlanData);
 
 // Start server when database is ready
 const startServer = () => {
-  app.listen(port, () => {
+  const server = app.listen(port, () => {
     console.log(`✓ Database connected successfully`);
     console.log(`Server running at http://localhost:${port}`);
   });
+  
+  // Keep process alive if something is unref-ing it
+  setInterval(() => {
+    if (!server.listening) console.log("Server stopped listening");
+  }, 1000 * 60 * 60); // 1 hour
 };
 
 if (AppDataSource.isInitialized) {
