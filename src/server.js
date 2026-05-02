@@ -28,18 +28,19 @@ app.post("/api/opencall/upload", uploadFiles, processUpload);
 app.get("/api/opencall/data", getCallPlanData);
 
 // Start server when database is ready
-if (AppDataSource.isInitialized) {
+const startServer = () => {
   app.listen(port, () => {
     console.log(`✓ Database connected successfully`);
     console.log(`Server running at http://localhost:${port}`);
   });
+};
+
+if (AppDataSource.isInitialized) {
+  startServer();
 } else {
   AppDataSource.initialize()
     .then(() => {
-      app.listen(port, () => {
-        console.log(`✓ Database connected successfully`);
-        console.log(`Server running at http://localhost:${port}`);
-      });
+      startServer();
     })
     .catch((error) => {
       console.error("Database connection failed:", error);
