@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { AppDataSource } from "./db/db.js";
@@ -8,7 +9,7 @@ import {
 } from "./controller/opencall.controller.js";
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 // Explicit CORS — allow all origins
 app.use(cors({
