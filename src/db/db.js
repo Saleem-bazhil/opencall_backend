@@ -7,3 +7,7 @@ export const pool = new Pool({
   password: "1234",
   port: 5432,
 });
+
+pool.connect()
+  .then(() => console.log("PostgreSQL Connected"))
+  .catch((err) => console.log("DB Connection Error:", err));
