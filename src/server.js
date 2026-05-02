@@ -1,21 +1,32 @@
-import express from 'express';
-import { AppDataSource } from "./db/db.js"; 
+import express from "express";
+import cors from "cors";
+import "./db/db.js";
+import {
+  uploadFiles,
+  processUpload,
+  getCallPlanData,
+} from "./controller/opencall.controller.js";
 
-const app = express()
-const port = 3000
+const app = express();
+const port = 3000;
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+// Explicit CORS — allow all origins
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
 
-// Start server only after database connects
-AppDataSource.initialize()
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`Server running at http://localhost:${port}`)
-    })
-  })
-  .catch((error) => {
-    console.error("Failed to start server:", error);
-    process.exit(1);
-  })
+app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
+// ── OpenCall Routes ──
+app.post("/api/opencall/upload", uploadFiles, processUpload);
+app.get("/api/opencall/data", getCallPlanData);
+
+app.listen(port, () => {
+  console.log(`http://localhost:${port}`);
+});
