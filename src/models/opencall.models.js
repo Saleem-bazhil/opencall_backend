@@ -13,7 +13,7 @@ const createDailyCallPlanTable = async () => {
       case_created_time TIMESTAMP,
       wip_aging VARCHAR(100),
       rtpl_status VARCHAR(100) NOT NULL,
-      segment VARCHAR(20) NOT NULL DEFAULT '',
+      segment VARCHAR(20) NOT NULL CHECK (segment IN ('PC','Print','Install','')),
       engineer VARCHAR(255),
       product VARCHAR(255),
       flex_status VARCHAR(100),
@@ -28,7 +28,7 @@ const createDailyCallPlanTable = async () => {
       tat VARCHAR(100),
       customer_mail VARCHAR(255),
       rca TEXT,
-      upload_source VARCHAR(20) NOT NULL DEFAULT 'CALL_PLAN',
+      upload_source VARCHAR(20) NOT NULL CHECK (upload_source IN ('FIELDEZ','WIP_REPORT,CALL_PLAN')),
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
